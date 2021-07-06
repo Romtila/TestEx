@@ -12,6 +12,30 @@ namespace TestEx
     {
         private static void Main(string[] args)
         {
+            try
+            {
+                CopyFiles();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            Console.Read();
+        }
+
+        private static void CopingFileInfo(String sp, String dp, String fn)
+        {
+            var fi = new FileInfo(Path.Combine(sp, fn));
+
+            if (fi.Exists)
+            {
+                fi.CopyTo(dp, true);
+            }
+        }
+
+        private static void CopyFiles()
+        {
             Console.WriteLine("Укажите путь к конфигурационному файлу:");
 
             var config = Console.ReadLine();
@@ -35,17 +59,6 @@ namespace TestEx
             }
 
             Console.WriteLine("Ваши файлы скопированы.");
-            Console.Read();
-        }
-
-        private static void CopingFileInfo(String sp, String dp, String fn)
-        {
-            var fi = new FileInfo(Path.Combine(sp, fn));
-
-            if (fi.Exists)
-            {
-                fi.CopyTo(dp, true);
-            }
         }
     }
 }

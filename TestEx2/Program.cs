@@ -12,60 +12,14 @@ namespace TestEx2
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Введите путь к файлу сумм:");
-            var pathInputFile = Console.ReadLine();
-
-            Console.WriteLine("Введите путь к папке, где лежат файлы:");
-            var pathFilesToChek = Console.ReadLine();
-
-            var listFiles = new List<HashFile>();
-
-            ReadingFileAddToList(listFiles, pathInputFile);
-
-            foreach (var file in listFiles)//провереям хэш суммы
+            try
             {
-                var path = pathFilesToChek + file.FileName;
-
-                if (File.Exists(path))
-                {
-                    var tmpSource = File.ReadAllBytes(path);
-
-                    switch (file.HashAlgorithm)
-                    {
-                        case "md5":
-                            {
-                                var tmpHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource);
-
-                                CheckingEqual(
-                                    ComparisonTwoHash(file.HashSumm, tmpHash),
-                                    file.FileName);
-                                break;
-                            }
-                        case "sha1":
-                            {
-                                var tmpHash = new SHA1CryptoServiceProvider().ComputeHash(tmpSource);
-                                CheckingEqual(
-                                    ComparisonTwoHash(file.HashSumm, tmpHash),
-                                    file.FileName);
-                                break;
-                            }
-                        case "sha256":
-                            {
-                                var tmpHash = new SHA256CryptoServiceProvider().ComputeHash(tmpSource);
-                                CheckingEqual(
-                                    ComparisonTwoHash(file.HashSumm, tmpHash),
-                                    file.FileName);
-                                break;
-                            }
-                    }
-                }
-
-                else
-                {
-                    Console.WriteLine(file.FileName + "NOT FOUND");
-                }
+                ReadAndComparison();
             }
-
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Console.ReadLine();
         }
 
@@ -113,6 +67,68 @@ namespace TestEx2
                 Console.WriteLine(filename + "OK");
             else
                 Console.WriteLine(filename + "FAIL");
+        }
+
+        private static void ReadAndComparison()
+        {
+            Console.WriteLine("Введите путь к файлу сумм:");
+            var pathInputFile = Console.ReadLine();
+
+            if (File.Exists(pathInputFile))
+            {
+
+            }
+
+            Console.WriteLine("Введите путь к папке, где лежат файлы:");
+            var pathFilesToChek = Console.ReadLine();
+
+            var listFiles = new List<HashFile>();
+
+            ReadingFileAddToList(listFiles, pathInputFile);
+
+            foreach (var file in listFiles)//провереям хэш суммы
+            {
+                var path = Path.Combine(pathFilesToChek, file.FileName);
+
+                if (File.Exists(path))
+                {
+                    var tmpSource = File.ReadAllBytes(path);
+
+                    switch (file.HashAlgorithm)
+                    {
+                        case "md5":
+                            {
+                                var tmpHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource);
+
+                                CheckingEqual(
+                                    ComparisonTwoHash(file.HashSumm, tmpHash),
+                                    file.FileName);
+                                break;
+                            }
+                        case "sha1":
+                            {
+                                var tmpHash = new SHA1CryptoServiceProvider().ComputeHash(tmpSource);
+                                CheckingEqual(
+                                    ComparisonTwoHash(file.HashSumm, tmpHash),
+                                    file.FileName);
+                                break;
+                            }
+                        case "sha256":
+                            {
+                                var tmpHash = new SHA256CryptoServiceProvider().ComputeHash(tmpSource);
+                                CheckingEqual(
+                                    ComparisonTwoHash(file.HashSumm, tmpHash),
+                                    file.FileName);
+                                break;
+                            }
+                    }
+                }
+
+                else
+                {
+                    Console.WriteLine(file.FileName + "NOT FOUND");
+                }
+            }
         }
     }
 }
