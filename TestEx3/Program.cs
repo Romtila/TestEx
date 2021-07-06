@@ -15,7 +15,15 @@ namespace TestEx3
             foreach (var elemType in list)
             {
                 var element = (TestBase)Activator.CreateInstance(elemType);
-                element.Execute();
+                try
+                {
+                    Console.WriteLine($"Выполняется тест {element.Name}");
+                    element.Execute();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
 
             Console.ReadLine();

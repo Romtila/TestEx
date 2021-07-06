@@ -7,7 +7,7 @@ namespace TestEx3
     {
         public ObjectIDGenerator TcId { get; }
 
-        public string Name { get; set; }
+        public string Name => GetType().Name;
 
         public virtual void Prep()
         {
