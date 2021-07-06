@@ -9,12 +9,12 @@ namespace TestEx3
     {
         public override void Prep()
         {
-            var ramMonitor = new ManagementObjectSearcher("SELECT TotalPhysicalMemorySize FROM Win32_OperatingSystem");
+            var ramMonitor = new ManagementObjectSearcher("SELECT Capacity FROM Win32_PhysicalMemory");
             ulong ram = 0;
 
             foreach (var objram in ramMonitor.Get())
             {
-                ram = Convert.ToUInt64(objram["TotalPhysicalMemorySize"]);
+                ram = Convert.ToUInt64(objram["Capacity"]);
             }
 
             var ramGb = ram / 1048576;

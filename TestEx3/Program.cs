@@ -17,6 +17,8 @@ namespace TestEx3
                 var element = (TestBase)Activator.CreateInstance(elemType);
                 element.Execute();
             }
+
+            Console.ReadLine();
         }
     }
 }
